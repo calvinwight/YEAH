@@ -1,0 +1,83 @@
+/* General Body Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #1c1c1c; /* Dark background for a cinematic feel */
+    color: #f4f4f4; /* Light text for contrast */
+}
+
+/* Header Styling */
+header {
+    background-color: #444; /* Dark gray header */
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    border-bottom: 3px solid #2979ca; /* Orange border for highlight */
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin: 0;
+}
+
+header nav a {
+    color: #2979ca; /* Highlighted navigation links */
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+}
+
+header nav a:hover {
+    color: #fff; /* Change to white on hover */
+}
+
+/* Content Wrapper */
+.content {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+/* Section Styling */
+#top-movies, #movie-trivia, #embedded-video, #tableau-graph {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #2e2e2e; /* Slightly lighter background for sections */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+h2 {
+    color: #2979ca;
+    text-align: center; /* Orange headings for emphasis */
+}
+
+h3 {
+    color: #2979ca; /* Slightly lighter orange for subheadings */
+}
+
+/* List Styling */
+ol, ul {
+    padding-left: 20px;
+    
+}
+
+ol li, ul li {
+    margin-bottom: 10px;
+}
+
+/* Image Styling */
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8100px;
+    margin-right: auto;
+    margin-left: auto
+     /* Rounded corners for images */
+}
+
+/* Foot

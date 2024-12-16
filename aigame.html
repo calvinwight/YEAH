@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong Master</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'); /* 80's themed font */
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000; /* Set background to black */
+            color: #fff; /* Text color for visibility */
+            font-family: 'Press Start 2P', cursive; /* Apply the 80's themed font */
+        }
+        canvas {
+            background-color: #000;
+            border: 2px solid #fff; /* Optional: Add a border for better visibility */
+        }
+        #title {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #FF00FF; /* Neon pink color for the title */
+            text-shadow: 2px 2px #00FFFF; /* Cyan shadow for a glowing effect */
+        }
+        #controls {
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-family: 'Press Start 2P', cursive; /* Ensure buttons use the same font */
+            color: #000;
+            background-color: #FF00FF; /* Neon pink button color */
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #00FFFF; /* Change to cyan on hover */
+        }
+        #scoreDisplay {
+            font-size: 24px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="title">Pong Master</div>
+<canvas id="pongCanvas" width="1000" height="500"></canvas> <!-- Enlarged canvas -->
+<div id="controls">
+    <button id="playButton">Play</button>
+    <button id="playAgainButton" style="display:none;">Play Again</button>
+    <div id="scoreDisplay">Score: <span id="score">0</span></div>
+</div>
+
+<script>
+    const canvas = document.getElementById('pongCanvas');
+    const ctx = canvas.getContext('2d');
+    const playButton = document.getElementById('playButton');
+    const playAgainButton = document.getElementById('playAgainButton');
+    const scoreDisplay = document.getElementById('score');
+
+    let paddleHeight = 10, paddleWidth = 100, paddleX = (canvas.width - paddleWidth) / 2;
+    let rightPressed = false, leftPressed = false;
+    let ballRadius = 10, x = canvas.width / 2, y = canvas.height - 30;
+    let dx = 6, dy = -6; // Increased speed of the ball
+    let score = 0;
+    let isPlaying = false;
+
+    function drawPaddle() {
+        ctx.beginPath();
+        ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
+        ctx.fillStyle = "#0095DD";
+        ctx.fill();
+        ctx.closePath();
+    }
+
+    function drawBall() {
+        ctx.beginPath();
+        ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+        ctx.fillStyle = "#FF5733"; // Different color than the paddle
+        ctx.fill();
+        ctx.closePath();
+    }
+
+    function draw() {
+        if (!isPlaying) return;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawBall();
+        drawPaddle();
+
+        if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
+            dx = -dx;
+        }
+        if (y + dy < ballRadius) {
+            dy = -dy;
+        } else if (y + dy > canvas.height - ballRadius) {
+            if (x > paddleX && x < paddleX + paddleWidth) {
+                dy = -dy;
+                score++;
+                scoreDisplay.textContent = score;
+            } else {
+                isPlaying = false;
+                playAgainButton.style.display = 'inline';
+                return;
+            }
+        }
+
+        if (rightPressed && paddleX < canvas.width - paddleWidth) {
+            paddleX += 7;
+        } else if (leftPressed && paddleX > 0) {
+            paddleX -= 7;
+        }
+
+        x += dx;
+        y += dy;
+
+        requestAnimationFrame(draw);
+    }
+
+    function keyDownHandler(e) {
+        if (e.key === "Right" || e.key === "ArrowRight") {
+            rightPressed = true;
+        } else if (e.key === "Left" || e.key === "ArrowLeft") {
+            leftPressed = true;
+        }
+    }
+
+    function keyUpHandler(e) {
+        if (e.key === "Right" || e.key === "ArrowRight") {
+            rightPressed = false;
+        } else if (e.key === "Left" || e.key === "ArrowLeft") {
+            leftPressed = false;
+        }
+    }
+
+    document.addEventListener("keydown", keyDownHandler);
+    document.addEventListener("keyup", keyUpHandler);
+
+    playButton.addEventListener('click', () => {
+        isPlaying = true;
+        playButton.style.display = 'none';
+        draw();
+    });
+
+    playAgainButton.addEventListener('click', () => {
+        isPlaying = true;
+        x = canvas.width / 2; 
+        y = canvas.height - 30; 
+        dx = 3; 
+        dy = -3; 
+        score = 0; 
+        scoreDisplay.textContent = score; 
+        playAgainButton.style.display = 'none';
+        
+        draw();
+    });
+</script>
+
+</body>
+</html>
